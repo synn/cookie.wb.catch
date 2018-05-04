@@ -1,0 +1,72 @@
+{
+    "manifest_version": 2,
+    "name": "TBK Online",
+    "version": "0.0.1",
+    "description": "微导购自助化",
+    "icons":
+    {
+        "16": "./img/icon.png",
+        "48": "./img/icon.png",
+        "128": "./img/icon.png"
+    },
+    "background":
+    {
+        "page": "background.html",
+        "scripts": ["./js/background.js"]
+    },
+    // 浏览器右上角图标设置，browser_action、page_action、app必须三选一
+    // "browser_action": 
+    // {
+    //     "default_icon": "./img/icon.png",
+    //     "default_title": "微导购自助化",
+    //     "default_popup": "popup.html"
+    // },
+    // 当某些特定页面打开才显示的图标
+    "page_action":
+    {
+        "default_icon": "./img/icon.png",
+        "default_title": "微导购自助化",
+        "default_popup": "popup.html"
+    },
+    // 需要直接注入页面的JS
+    "content_scripts": 
+    [
+        {
+            // "<all_urls>" 表示匹配所有地址
+            "matches": ["http://daogou.sc.weibo.com/*"],
+            "js": ["./js/content-script.js"],
+            "css": ["./css/custom.css"],
+            "run_at": "document_start"
+        }
+    ],
+    "permissions":
+    [
+        "contextMenus", // 右键菜单
+        "tabs", // 标签
+        "notifications", // 通知
+        "webRequest", // web请求
+        "webRequestBlocking",
+        "storage", // 插件本地存储
+        "http://*/*", // 可以通过executeScript或者insertCSS访问的网站
+        "https://*/*" // 可以通过executeScript或者insertCSS访问的网站
+    ],
+    // 普通页面能够直接访问的插件资源列表，如果不设置是无法直接访问的
+    "web_accessible_resources": ["js/inject.js"],
+    // 插件主页，这个很重要，不要浪费了这个免费广告位
+    // "homepage_url": "https://www.baidu.com",
+    // 覆盖浏览器默认页面
+    "chrome_url_overrides":
+    {
+        // 覆盖浏览器默认的新标签页
+        "newtab": "./newtab.html"
+    },
+    "options_ui":
+    {
+        "page": "./options.html",
+        // 添加一些默认的样式，推荐使用
+        "chrome_style": true
+    },
+    "default_locale": "zh_CN",
+    // devtools页面入口，注意只能指向一个HTML文件，不能是JS文件
+    "devtools_page": "./devtools.html"
+}
